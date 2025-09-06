@@ -8,7 +8,7 @@ from pynput.mouse import Controller as mController
 def mapKey(midi_key:int, kState:bool):
     """Maps a midi device key to a keyboard or mouse key.
     returns (keyboard(False) / mouse(True), action)"""
-    mvector = ((0, 5), (0, -5), (-5, 0), (5, 0))
+    mvector = ((0, 5), (0, -5), (-5, 0), (5, 0)) ## NOT USED ##
 
     match midi_key:
         case 36: sendKey(Key.esc, kState)       # C3
@@ -21,7 +21,8 @@ def mapKey(midi_key:int, kState:bool):
         case 46: sendKey('e', kState)           # A3#
         case 47: sendKey('d', kState)           # 
         case 48: sendKey(Key.space, kState)     # C4
-        # mouse controlls
+        
+        # mouse controlls ## NOT USED ##
         case 89: moveMouse(mvector[2])          # cc  MOVE_LEFT
         case 89: sendMButton(Key.space, kState) # cc  BUTTON_LEFT
         case 91: moveMouse(mvector[1], kState)  # cc  MOVE_DOWN
@@ -32,7 +33,7 @@ def mapKey(midi_key:int, kState:bool):
 
     return True
 
-def sendKey(_ascii, down:bool):
+def sendKey(_ascii, down:bool): #sends the proper key to the game/program
     keyboard = Controller()
     if down:
         keyboard.press(_ascii)
@@ -64,7 +65,7 @@ def getMidiKey():
             if msg:
                 [key_state, key, *_], *_ = msg
                 mapKey(key, key_state == 144)
-                print(f"{key_state}, {key}")
+                print(f"key state (up or down): {key_state}, keyID: {key}")
             time.sleep(0.01)
     except KeyboardInterrupt:
         print('')
